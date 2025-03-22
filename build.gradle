@@ -1,9 +1,19 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+application {
+    mainClassName='org.example.Main'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
 
 repositories {
     mavenCentral()
@@ -16,10 +26,13 @@ dependencies {
     implementation 'org.telegram:telegrambots-spring-boot-starter:6.9.7.1'
     implementation 'org.json:json:20240303'
 
+    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+
 }
 
 compileJava.options.encoding = 'UTF-8'
 
 test {
+
     useJUnitPlatform()
 }

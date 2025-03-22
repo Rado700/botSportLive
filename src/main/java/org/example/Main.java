@@ -1,6 +1,8 @@
 package org.example;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.example.handlers.Commands;
+import org.example.handlers.HotButtons;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -9,14 +11,14 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class Main extends TelegramLongPollingBot {
 
-    String name = System.getenv("USERNAME");
-    String token = System.getenv("TOKEN");
-
     private final Commands commands;
+    private final HotButtons hotButtons;
+
 
     public Main() {
         BotService botService = new BotService(this);
         this.commands = new Commands(botService);
+        this.hotButtons = new HotButtons(botService);
     }
 
     public static void main(String[] args) {
@@ -35,10 +37,14 @@ public class Main extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         try{
             if (update.hasMessage()){
-                if (update.getMessage().hasText() && update.getMessage().getText().startsWith("/start")){
+                if (update.getMessage().hasText() && update.getMessage().getText().startsWith("/")){
                     commands.onUpdateReceived(update.getMessage());
 //                    System.out.println("hi");
                 }
+                else if (update.getMessage().hasText()){
+                    hotButtons.onUpdateReceived(update.getMessage());
+                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,12 +55,14 @@ public class Main extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return name;
+        Dotenv dotenv = Dotenv.load();
+        return dotenv.get("USERNAME");
     }
 
     @Override
     public String getBotToken() {
-        return token;
+        Dotenv dotenv = Dotenv.load();
+        return dotenv.get("TOKEN");
 
     }
 }
