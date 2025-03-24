@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class ApiService {
 
-    static String API_URL = "http://localhost:8080";
+    static String API_URL = "https://sportliveapp.ru";
 
     public static Object sendGetRequest(String urlStr) throws Exception {
         URL url = new URL(API_URL + urlStr);
