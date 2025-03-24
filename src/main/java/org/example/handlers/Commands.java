@@ -47,6 +47,7 @@ public class Commands extends BotHandler {
         String userCouchJson = ApiService.sendGetRequest("/api/login/tgId/" + hashString(String.valueOf(message.getChatId()))).toString();
         JSONObject userType = new JSONObject(userCouchJson);
 
+
          if (!userType.isNull("user")) {
              sendMessage.setReplyMarkup(Keyboard.getHotButtonsUser());
          }

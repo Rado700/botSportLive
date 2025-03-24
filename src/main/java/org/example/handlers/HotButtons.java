@@ -77,7 +77,7 @@ public class HotButtons extends BotHandler{
     private void handleMessageAddSchedule(Message message){
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(message.getChatId());
-        sendMessage.setText("Добавить");
+        sendMessage.setText("Выбрать дату ⬆");
         sendMessage.setReplyMarkup(Inline.addScheduleCouch());
         this.botService.sendMessage(sendMessage);
     }
