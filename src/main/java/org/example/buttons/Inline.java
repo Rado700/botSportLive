@@ -188,7 +188,7 @@ public class Inline {
         InlineKeyboardButton button = new InlineKeyboardButton();
         button.setText("Авторизоваться");
 //        button.setWebApp(new WebAppInfo("https://localhost:8080/auth/tg"));
-        button.setWebApp(new WebAppInfo("https://sportliveapp.ru/auth/tg?page=authorisation"));
+        button.setWebApp(new WebAppInfo("https://sportliveapp.ru"));
         rowInline.add(button);
         rowsInline.add(rowInline);
 

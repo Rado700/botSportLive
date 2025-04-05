@@ -68,20 +68,4 @@ public class Keyboard {
         return markup;
     }
 
-    public static ReplyKeyboardMarkup getHotButtonsAnonymous(){
-        ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
-        List<KeyboardRow>rowLines = new ArrayList<>();
-        KeyboardRow rowLine = new KeyboardRow();
-
-        KeyboardButton button = new KeyboardButton();
-
-        button.setText("Авторизоваться");
-
-        rowLine.add(button);
-        rowLines.add(rowLine);
-
-        markup.setKeyboard(rowLines);
-        markup.setResizeKeyboard(true);
-        return markup;
-    }
 }
