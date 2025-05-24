@@ -1,12 +1,18 @@
 package org.example.buttons;
 
 import org.example.ApiService;
+import org.example.utils.QrCodeGenerator;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 
+import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -195,5 +201,6 @@ public class Inline {
         markup.setKeyboard(rowsInline);
         return markup;
     }
+
 
 }

@@ -4,12 +4,14 @@ import org.example.ApiService;
 import org.example.BotService;
 import org.example.buttons.Inline;
 import org.example.buttons.Keyboard;
-import org.json.JSONArray;
+import org.example.utils.QrCodeGenerator;
 import org.json.JSONObject;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import java.util.Objects;
+import java.io.ByteArrayInputStream;
 
 import static org.example.buttons.Inline.hashString;
 
@@ -34,7 +36,7 @@ public class Commands extends BotHandler {
         String getChatId = String.valueOf(message.getChatId());
         String getMessageText = message.getText();
         String[] splitForText = getMessageText.split(" ");
-        if (splitForText.length >= 2){
+        if (splitForText.length >= 2) {
             String encryptTextId = splitForText[1];
             if (encryptTextId.startsWith("auth_")) {
                 String encryptLoginId = encryptTextId.split("_")[1];
@@ -52,25 +54,26 @@ public class Commands extends BotHandler {
                 "\n" +
                 "Здесь вы на расстояний одного клика до новой цели!";
 
-        SendMessage sendMessage = new SendMessage ();
+        SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(message.getChatId());
         sendMessage.setText(response);
         String userCouchJson = ApiService.sendGetRequest("/api/login/tgId/" + hashString(String.valueOf(message.getChatId()))).toString();
-        if (userCouchJson.isEmpty()){
+        if (userCouchJson.isEmpty()) {
             sendMessage.setReplyMarkup(Inline.authorisationForAnonymous());
-        }else{
+        } else {
             JSONObject userType = new JSONObject(userCouchJson);
 
             if (!userType.isNull("user")) {
                 sendMessage.setReplyMarkup(Keyboard.getHotButtonsUser());
-            }
-            else if (!userType.isNull("couch")) {
+            } else if (!userType.isNull("couch")) {
                 sendMessage.setReplyMarkup(Keyboard.getHotButtonsCouch());
             }
         }
         this.botService.sendMessage(sendMessage);
 
     }
+
+
 
 
 }

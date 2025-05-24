@@ -44,24 +44,29 @@ public class Keyboard {
         List<KeyboardRow>rowLines = new ArrayList<>();
         KeyboardRow rowLine1 = new KeyboardRow();
         KeyboardRow rowLine2 = new KeyboardRow();
+        KeyboardRow rowLine3 = new KeyboardRow();
 
         KeyboardButton button1 = new KeyboardButton();
         KeyboardButton button2 = new KeyboardButton();
         KeyboardButton button3 = new KeyboardButton();
         KeyboardButton button4 = new KeyboardButton();
+        KeyboardButton button5 = new KeyboardButton();
 
         button1.setText("Добавить тренировку");
         button2.setText("Мой тренировки");
         button3.setText("Добавить инвентарь");
         button4.setText("Вывод средств");
+        button5.setText("Генерация QR-Cod");
 
         rowLine1.add(button1);
         rowLine1.add(button2);
         rowLine2.add(button3);
         rowLine2.add(button4);
+        rowLine3.add(button5);
 
         rowLines.add(rowLine1);
         rowLines.add(rowLine2);
+        rowLines.add(rowLine3);
 
         markup.setKeyboard(rowLines);
         markup.setResizeKeyboard(true);

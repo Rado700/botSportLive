@@ -1,10 +1,14 @@
 package org.example.handlers;
 
 import org.example.BotService;
+import org.example.utils.QrCodeGenerator;
 import org.example.buttons.Inline;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import java.io.ByteArrayInputStream;
 import java.util.Objects;
 
 public class HotButtons extends BotHandler{
@@ -35,6 +39,8 @@ public class HotButtons extends BotHandler{
             handleMessageWithdrawBalance(message);
         } else if (message.getText().equals("Авторизоваться")) {
             handleMessageAuthorisation(message);
+        }else if (message.getText().equals("Генерация QR-Cod")) {
+            handleStartCommand(message);
         }
     }
 
@@ -101,6 +107,36 @@ public class HotButtons extends BotHandler{
         sendMessage.setChatId(message.getChatId());
         sendMessage.setText("Показать мой тренировки");
         sendMessage.setReplyMarkup(Inline.openScheduleForCouch());
+        this.botService.sendMessage(sendMessage);
+    }
+
+    public void handleStartCommand (Message message) throws Exception {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(message.getChatId());
+        sendMessage.setText("Генерация QR-кода");
+
+        String chatId = String.valueOf(message.getChatId());
+        // Генерация уникального URL
+        String qrUrl = "https://sportliveapp.ru/auth/tg/qr/tgId=" + chatId;
+
+        // Генерация QR-кода
+        byte[] qrBytes = QrCodeGenerator.generateQrCode(qrUrl, 300, 300);
+        InputFile qrImage = new InputFile(new ByteArrayInputStream(qrBytes), "qr_code.png");
+
+        // Отправка QR-кода
+        SendPhoto sendPhoto = new SendPhoto();
+        sendPhoto.setChatId(chatId);
+        sendPhoto.setPhoto(qrImage);
+        sendPhoto.setCaption("Сканируйте этот QR-код для авторизации:");
+        botService.sendPhoto(sendPhoto);
+
+        // Дополнительно можно отправить кнопки или приветствие
+        SendMessage welcome = new SendMessage();
+        welcome.setChatId(chatId);
+        welcome.setText("Привет! Ниже ваш персональный QR-код.");
+        welcome.setReplyMarkup(Inline.startScheduleButtons());
+        botService.sendMessage(welcome);
+
         this.botService.sendMessage(sendMessage);
     }
 
