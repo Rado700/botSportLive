@@ -117,7 +117,7 @@ public class HotButtons extends BotHandler{
 
         String chatId = String.valueOf(message.getChatId());
         // Генерация уникального URL
-        String qrUrl = "https://sportliveapp.ru/auth/tg/qr/tgId=" + chatId;
+        String qrUrl = "https://sportliveapp.ru/auth/qr?couchTgId=" + chatId+"page=recordScreen";
 
         // Генерация QR-кода
         byte[] qrBytes = QrCodeGenerator.generateQrCode(qrUrl, 300, 300);
@@ -127,15 +127,8 @@ public class HotButtons extends BotHandler{
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chatId);
         sendPhoto.setPhoto(qrImage);
-        sendPhoto.setCaption("Сканируйте этот QR-код для авторизации:");
+        sendPhoto.setCaption("Сканируйте этот QR-код для авторизации пользователя:");
         botService.sendPhoto(sendPhoto);
-
-        // Дополнительно можно отправить кнопки или приветствие
-        SendMessage welcome = new SendMessage();
-        welcome.setChatId(chatId);
-        welcome.setText("Привет! Ниже ваш персональный QR-код.");
-        welcome.setReplyMarkup(Inline.startScheduleButtons());
-        botService.sendMessage(welcome);
 
         this.botService.sendMessage(sendMessage);
     }
