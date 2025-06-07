@@ -47,7 +47,6 @@ public class Main extends TelegramLongPollingBot {
                 else if (update.getMessage().hasText()){
                     hotButtons.onUpdateReceived(update.getMessage());
                 }
-
             }
             else  if (update.hasCallbackQuery()){
                 callBack.onUpdateReceived(update.getCallbackQuery());

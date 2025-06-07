@@ -206,7 +206,7 @@ public class Inline {
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>>rowsLine = new ArrayList<>();
 
-        String sectionString = ApiService.sendGetRequest("api/couch/sportSection/tgId/" + hashString(String.valueOf(chatId))).toString();
+        String sectionString = ApiService.sendGetRequest("/api/couch/sportSection/tgId/" + hashString(String.valueOf(chatId))).toString();
 
         JSONArray sectionsJson = new JSONArray(sectionString);
 
@@ -214,7 +214,7 @@ public class Inline {
             List<InlineKeyboardButton>rowLine = new ArrayList<>();
             JSONObject section = sectionsJson.getJSONObject(i);
             String name = section.getString("name");
-            String sectionId = section.getString("tgId");
+            String sectionId = section.getString("id");
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(name);
             button.setCallbackData("section|"+sectionId);
