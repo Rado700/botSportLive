@@ -214,7 +214,7 @@ public class Inline {
             List<InlineKeyboardButton>rowLine = new ArrayList<>();
             JSONObject section = sectionsJson.getJSONObject(i);
             String name = section.getString("name");
-            String sectionId = section.getString("id");
+            int sectionId = section.getInt("id");
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(name);
             button.setCallbackData("section|"+sectionId);
