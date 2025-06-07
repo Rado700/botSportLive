@@ -40,7 +40,7 @@ public class HotButtons extends BotHandler{
         } else if (message.getText().equals("Авторизоваться")) {
             handleMessageAuthorisation(message);
         }else if (message.getText().equals("Генерация QR-Cod")) {
-            handleStartCommand(message);
+            handleChooseSportSection(message);
         }
     }
 
@@ -110,28 +110,15 @@ public class HotButtons extends BotHandler{
         this.botService.sendMessage(sendMessage);
     }
 
-    public void handleStartCommand (Message message) throws Exception {
+    public void handleChooseSportSection(Message message) throws Exception {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(message.getChatId());
-        sendMessage.setText("Генерация QR-кода");
-
-        String chatId = String.valueOf(message.getChatId());
-        // Генерация уникального URL
-        String qrUrl = "https://sportliveapp.ru/auth/qr?couchTgId=" + chatId+"page=recordScreen";
-
-        // Генерация QR-кода
-        byte[] qrBytes = QrCodeGenerator.generateQrCode(qrUrl, 300, 300);
-        InputFile qrImage = new InputFile(new ByteArrayInputStream(qrBytes), "qr_code.png");
-
-        // Отправка QR-кода
-        SendPhoto sendPhoto = new SendPhoto();
-        sendPhoto.setChatId(chatId);
-        sendPhoto.setPhoto(qrImage);
-        sendPhoto.setCaption("Сканируйте этот QR-код для авторизации пользователя:");
-        botService.sendPhoto(sendPhoto);
-
+        sendMessage.setText("Выберите спортсекцию:");
+        sendMessage.setReplyMarkup(Inline.getSectionForCouch(message.getChatId()));
         this.botService.sendMessage(sendMessage);
     }
+
+
 
     private void handleMessageAuthorisation(Message message){
         SendMessage sendMessage = new SendMessage();

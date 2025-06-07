@@ -1,6 +1,7 @@
 package org.example;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.example.handlers.CallBack;
 import org.example.handlers.Commands;
 import org.example.handlers.HotButtons;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -13,12 +14,14 @@ public class Main extends TelegramLongPollingBot {
 
     private final Commands commands;
     private final HotButtons hotButtons;
+    private final CallBack callBack;
 
 
     public Main() {
         BotService botService = new BotService(this);
         this.commands = new Commands(botService);
         this.hotButtons = new HotButtons(botService);
+        this.callBack = new CallBack(botService);
     }
 
     public static void main(String[] args) {
@@ -45,6 +48,9 @@ public class Main extends TelegramLongPollingBot {
                     hotButtons.onUpdateReceived(update.getMessage());
                 }
 
+            }
+            else  if (update.hasCallbackQuery()){
+                callBack.onUpdateReceived(update.getCallbackQuery());
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -202,5 +202,28 @@ public class Inline {
         return markup;
     }
 
+    public static InlineKeyboardMarkup getSectionForCouch(Long chatId) throws Exception {
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>>rowsLine = new ArrayList<>();
+
+        String sectionString = ApiService.sendGetRequest("api/couch/sportSection/tgId/" + hashString(String.valueOf(chatId))).toString();
+
+        JSONArray sectionsJson = new JSONArray(sectionString);
+
+        for (int i =0; i <sectionsJson.length(); i++){
+            List<InlineKeyboardButton>rowLine = new ArrayList<>();
+            JSONObject section = sectionsJson.getJSONObject(i);
+            String name = section.getString("name");
+            String sectionId = section.getString("tgId");
+            InlineKeyboardButton button = new InlineKeyboardButton();
+            button.setText(name);
+            button.setCallbackData("section|"+sectionId);
+            rowLine.add(button);
+            rowsLine.add(rowLine);
+
+        }
+        markup.setKeyboard(rowsLine);
+        return markup;
+    }
 
 }
