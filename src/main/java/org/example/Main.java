@@ -42,14 +42,16 @@ public class Main extends TelegramLongPollingBot {
             if (update.hasMessage()){
                 if (update.getMessage().hasText() && update.getMessage().getText().startsWith("/")){
                     commands.onUpdateReceived(update.getMessage());
-//                    System.out.println("hi");
+
                 }
                 else if (update.getMessage().hasText()){
                     hotButtons.onUpdateReceived(update.getMessage());
+
                 }
             }
             else  if (update.hasCallbackQuery()){
                 callBack.onUpdateReceived(update.getCallbackQuery());
+
             }
         } catch (Exception e) {
             e.printStackTrace();
